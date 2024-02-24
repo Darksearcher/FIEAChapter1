@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "Gameplay/FIEAAbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
 #include "FIEAChapter1Character.generated.h"
 
 class USpringArmComponent;
@@ -16,7 +18,8 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class AFIEAChapter1Character : public ACharacter
+class AFIEAChapter1Character : public ACharacter,
+	public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -46,7 +49,14 @@ class AFIEAChapter1Character : public ACharacter
 
 public:
 	AFIEAChapter1Character();
-	
+
+	//~ Begin IAbilitySystemInterface
+	/** Returns our Ability System Component. */
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	//~ End IAbilitySystemInterface	
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	UFIEAAbilitySystemComponent* MyASC;
 
 protected:
 
