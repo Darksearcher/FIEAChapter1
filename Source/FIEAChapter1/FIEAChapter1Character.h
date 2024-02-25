@@ -47,12 +47,15 @@ class AFIEAChapter1Character : public ACharacter,
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	FDelegateHandle MaxSpeedChangeDelegate;
+	FDelegateHandle SlippingChangeDelegate;
+
 public:
 	AFIEAChapter1Character();
 
 	//~ Begin IAbilitySystemInterface
 	/** Returns our Ability System Component. */
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;	
 	//~ End IAbilitySystemInterface	
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
@@ -79,5 +82,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+private:
+	void OnMaxSpeedChanged(const FOnAttributeChangeData& Data);
+	void OnSlipChanged(const FOnAttributeChangeData& Data);
 };
 

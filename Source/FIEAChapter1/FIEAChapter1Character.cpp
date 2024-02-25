@@ -9,6 +9,7 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Gameplay/FIEAAttributeSet.h"
 #include "InputActionValue.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -54,11 +55,41 @@ AFIEAChapter1Character::AFIEAChapter1Character()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
 	MyASC = CreateDefaultSubobject<UFIEAAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	MaxSpeedChangeDelegate = MyASC->GetGameplayAttributeValueChangeDelegate(UFIEAAttributeSet::GetMaxSpeedAttribute()).AddUObject(this, &ThisClass::OnMaxSpeedChanged);
+	SlippingChangeDelegate = MyASC->GetGameplayAttributeValueChangeDelegate(UFIEAAttributeSet::GetSlippingAttribute()).AddUObject(this, &ThisClass::OnSlipChanged);
 }
 
 UAbilitySystemComponent* AFIEAChapter1Character::GetAbilitySystemComponent() const
 {
 	return MyASC;
+}
+
+void AFIEAChapter1Character::OnMaxSpeedChanged(const FOnAttributeChangeData& Data)
+{
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = Data.NewValue;
+}
+
+//Don't do this, this is horrible, this is just for showing off what you can do
+// What you should do is have all of these variables live on the player attribute set and have them correctly
+// manipulate a custom movement component
+void AFIEAChapter1Character::OnSlipChanged(const FOnAttributeChangeData& Data)
+{
+	UCharacterMovementComponent* MyMoveComp = Cast<UCharacterMovementComponent>(GetMovementComponent());
+	
+	if (Data.NewValue >= 1.f)
+	{
+		GetController()->SetIgnoreMoveInput(true);
+		MyMoveComp->GroundFriction = 0.f;
+		MyMoveComp->BrakingDecelerationWalking = 0.f;
+	}
+
+	if (Data.NewValue <= 0.f)
+	{
+		GetController()->SetIgnoreMoveInput(false);
+		UCharacterMovementComponent* DefaultMovementComp = Cast<UCharacterMovementComponent>(Cast<AFIEAChapter1Character>(GetClass()->GetDefaultObject())->GetMovementComponent());
+		MyMoveComp->GroundFriction = DefaultMovementComp->GroundFriction;
+		MyMoveComp->BrakingDecelerationWalking = DefaultMovementComp->BrakingDecelerationWalking;
+	}
 }
 
 void AFIEAChapter1Character::BeginPlay()
@@ -74,6 +105,9 @@ void AFIEAChapter1Character::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	bool bIfFound = false;
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = MyASC->GetGameplayAttributeValue(UFIEAAttributeSet::GetMaxSpeedAttribute(), bIfFound);
 }
 
 //////////////////////////////////////////////////////////////////////////
