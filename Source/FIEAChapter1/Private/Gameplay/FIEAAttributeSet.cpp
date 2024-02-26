@@ -3,7 +3,6 @@
 #include "Gameplay/FIEAAttributeSet.h"
 #include "GameplayEffectExtension.h"
 
-
 void UFIEAAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
     // Remember to call the parent's implementation.

@@ -22,7 +22,6 @@ class FIEACHAPTER1_API UFIEAAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 	
 public:
-
 	//~ Helper functions for "Health" attributes
 	ATTRIBUTE_ACCESSORS(UFIEAAttributeSet, Health);
 
