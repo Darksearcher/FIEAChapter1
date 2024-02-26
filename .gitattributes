@@ -6,3 +6,4 @@ Content/LevelPrototyping/** filter=lfs diff=lfs merge=lfs -text
 Content/Materials/** filter=lfs diff=lfs merge=lfs -text
 Content/StarterContent/** filter=lfs diff=lfs merge=lfs -text
 Content/Splash/** filter=lfs diff=lfs merge=lfs -text
+Content/FX/** filter=lfs diff=lfs merge=lfs -text
