@@ -23,6 +23,8 @@ class FIEACHAPTER1_API UFIEAAttributeSet : public UAttributeSet
 	
 public:
 	//~ Helper functions for "Health" attributes
+	ATTRIBUTE_ACCESSORS(UFIEAAttributeSet, MaxHealth);
+
 	ATTRIBUTE_ACCESSORS(UFIEAAttributeSet, Health);
 
 	ATTRIBUTE_ACCESSORS(UFIEAAttributeSet, Stamina);
@@ -36,6 +38,9 @@ public:
 	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayAttributeData MaxHealth;	
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayAttributeData Health;
 
