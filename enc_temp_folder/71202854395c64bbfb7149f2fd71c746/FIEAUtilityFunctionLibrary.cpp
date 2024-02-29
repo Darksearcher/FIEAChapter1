@@ -11,7 +11,5 @@ const UObject* UFIEAUtilityFunctionLibrary::GetClassCDO(const UClass* ClassToGet
 	}
 	
 	return ClassToGet->GetDefaultObject();
-
-	//Safe way to return if at runtime
 	//return NewObject<UObject>(nullptr, ClassToGet);
 }

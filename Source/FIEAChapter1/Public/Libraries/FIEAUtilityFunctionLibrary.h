@@ -19,6 +19,6 @@ public:
 
 	//Exposed function for getting CDO to BP
 	UFUNCTION(BlueprintCallable, Category = "FIEA", meta = (DeterminesOutputType = "ClassToGet"))
-	static UObject* GetClassCDO(UClass* ClassToGet);
+	static const UObject* GetClassCDO(const UClass* ClassToGet);
 };
 
