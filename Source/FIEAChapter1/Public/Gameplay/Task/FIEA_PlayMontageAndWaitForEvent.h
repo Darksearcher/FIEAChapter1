@@ -8,7 +8,7 @@
 #include "FIEA_PlayMontageAndWaitForEvent.generated.h"
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFIEAMontageWaitSimpleDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFIEAMontageNotifyTaskDelegate, FName, TheNotify);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFIEAMontageNotifyTaskDelegate, FGameplayTag, TheNotify);
 
 UCLASS()
 class FIEACHAPTER1_API UFIEA_PlayMontageAndWaitForEvent : public UAbilityTask_PlayMontageAndWait
@@ -16,9 +16,6 @@ class FIEACHAPTER1_API UFIEA_PlayMontageAndWaitForEvent : public UAbilityTask_Pl
     GENERATED_BODY()
 
 public:
-    //virtual void Activate() override;
-    UPROPERTY(BlueprintReadOnly)
-    FName NotifyName;
 
     UPROPERTY(BlueprintAssignable)
     FFIEAMontageNotifyTaskDelegate OnNotifyBegin;
@@ -31,7 +28,6 @@ public:
     static UFIEA_PlayMontageAndWaitForEvent* FIEACreatePlayMontageAndWaitForEvent(UGameplayAbility* OwningAbility,
         FName NewTaskInstanceName, UAnimMontage* NewMontageToPlay, float NewRate = 1.f, FName NewStartSection = NAME_None, bool bNewStopWhenAbilityEnds = true, float NewAnimRootMotionTranslationScale = 1.f, float NewStartTimeSeconds = 0.f, bool bNewAllowInterruptAfterBlendOut = false);
 
-
 protected:
 
     virtual void Activate() override;
@@ -41,10 +37,4 @@ protected:
 
     UFUNCTION()
     void OnPlayFIEAMontageNotifyEnd(FName TheNotifyName, const FBranchingPointNotifyPayload& BranchingPointNotifyPayload);
-
-    //void OnMontageBlendingOut(UAnimMontage* Montage, bool Result);
-
-    //virtual void OnDestroy(bool AbilityEnded) override;
-
-    //bool RegisteredCallbacks;
 };

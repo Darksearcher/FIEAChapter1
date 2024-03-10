@@ -58,16 +58,31 @@ void UFIEA_PlayMontageAndWaitForEvent::Activate()
 }
 FPlayMontageAnimNotifyDelegate OnPlayMontageNotifyEnd;
 void UFIEA_PlayMontageAndWaitForEvent::OnPlayFIEAMontageNotifyBegin(FName TheNotifyName, const FBranchingPointNotifyPayload& BranchingPointNotifyPayload)
-{
-	NotifyName = TheNotifyName;
+{	
+	FGameplayTag TagRetreival = FGameplayTag::RequestGameplayTag(TheNotifyName);
+
+	if (!TagRetreival.IsValid())
+	{
+		// Handle invalid tag here
+	}
+
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
-		OnNotifyBegin.Broadcast(TheNotifyName);
+		OnNotifyBegin.Broadcast(TagRetreival);
 	}	
 }
 
 void UFIEA_PlayMontageAndWaitForEvent::OnPlayFIEAMontageNotifyEnd(FName TheNotifyName, const FBranchingPointNotifyPayload& BranchingPointNotifyPayload)
 {
-	NotifyName = TheNotifyName;
-	OnNotifyEnd.Broadcast(TheNotifyName);
+	FGameplayTag TagRetreival = FGameplayTag::RequestGameplayTag(TheNotifyName);
+
+	if (!TagRetreival.IsValid())
+	{
+		// Handle invalid tag here
+	}
+
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		OnNotifyEnd.Broadcast(TagRetreival);
+	}
 }
