@@ -30,8 +30,9 @@ class FIEACHAPTER1_API UFIEAAbilitySystemComponent : public UAbilitySystemCompon
 {
 	GENERATED_BODY()
 
-
 public:
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTagChangeDelegate, FGameplayTag, MyGameplayTag, bool, bMyBool);
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "FIEA|Starting GAS");
 	TArray<TSubclassOf<UFIEAGameplayEffect>> StartingEffects;
 
@@ -43,6 +44,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Enhanced Input Abilities")
 	void ClearAbilityBindings(UInputAction* InputAction);
+
+	UPROPERTY(BlueprintAssignable, Category = "FIEA")
+	FTagChangeDelegate OnTagChanged;
+
+	virtual void OnTagUpdated(const FGameplayTag& Tag, bool TagExists) override;
 
 private:
 	void OnAbilityInputPressed(UInputAction* InputAction);
