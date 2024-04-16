@@ -1,3 +1,5 @@
+THE FOLLOWING STEPS ASSUME YOU HAVE VISUAL STUDIO SETUP
+
 Steps to getting this project setup locally:
 * Click the code drop down at the top right
 * Download Zip
